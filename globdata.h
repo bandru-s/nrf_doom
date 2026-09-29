@@ -4,7 +4,7 @@
 #include "d_player.h"
 #include "doomdef.h"
 #include "m_fixed.h"
-#include "am_map.h"
+//#include "am_map.h"
 #include "g_game.h"
 #include "r_defs.h"
 #include "hu_stuff.h"
@@ -221,7 +221,7 @@ extern thinker_t _g_thinkerclasscap;
 extern boolean   _g_acceleratestage;
 
 
-extern enum automapmode_e automapmode;
+//extern enum automapmode_e automapmode;
 
 
 extern gamestate_t wipegamestate;

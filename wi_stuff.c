@@ -38,7 +38,7 @@
 #include "m_random.h"
 #include "w_wad.h"
 #include "g_game.h"
-#include "r_main.h"
+//#include "r_main.h"
 #include "wi_lib.h"
 #include "wi_stuff.h"
 #include "s_sound.h"
@@ -185,21 +185,21 @@ void WI_drawPercent(int16_t x, int16_t y, int16_t p)
 
 void WI_drawTime(int16_t x, int16_t y, int32_t t)
 {
-  if (t<0)
-    return;
+  //if (t<0)
+  //  return;
 
-  if (t < 24L*60*60)
-    for(;;) {
-      int16_t n = t % 60;
-      t /= 60;
+  //if (t < 24L*60*60)
+    //for(;;) {
+    //  int16_t n = t % 60;
+   //   t /= 60;
       //x = WI_drawNum(x, y, n, (t || n>9) ? 2 : 1) - WI_getColonWidth();
 
       // draw
-      if (t)
+      //if (t)
         //WI_drawColon(x, y);
-      else break;
-    }
-  else // "sucks" (maybe should be "addicted", even I've never had a 24 hour game ;)
+      //else break;
+   // }
+  //else // "sucks" (maybe should be "addicted", even I've never had a 24 hour game ;)
     //WI_drawSucks(x, y);
 }
 
@@ -290,18 +290,18 @@ static void WI_drawShowNextLoc(void)
 {
     //WI_slamBackground();
 
-    int16_t last = (wbs->last == 8) ? wbs->next - 1 : wbs->last;
+    //int16_t last = (wbs->last == 8) ? wbs->next - 1 : wbs->last;
 
     // draw a splat on taken cities.
-    for (int16_t i=0 ; i<=last ; i++)
+    //for (int16_t i=0 ; i<=last ; i++)
        // WI_drawSplat(i);
 
     // splat the secret level?
-    if (wbs->didsecret)
+    //if (wbs->didsecret)
        // WI_drawSplat(8);
 
     // draw flashing ptr
-    if (snl_pointeron)
+    //if (snl_pointeron)
       //  WI_drawYouAreHere(wbs->next);
 
     // draws which level you are entering..

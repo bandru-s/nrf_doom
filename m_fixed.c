@@ -65618,3 +65618,22 @@ static const uint32_t reciprocalTable[65536] = {
 65538,
 65537
 };
+fixed_t CONSTFUNC FixedMul(fixed_t a, fixed_t b)
+{
+    return (fixed_t)(((int64_t)a * (int64_t)b) >> FRACBITS);
+}
+
+fixed_t CONSTFUNC FixedMulAngle(fixed_t a, fixed_t b)
+{
+    return (fixed_t)(((int64_t)a * (int64_t)b) >> FRACBITS);
+}
+
+fixed_t CONSTFUNC FixedMul3216(fixed_t a, uint16_t blw)
+{
+    return (fixed_t)(((int64_t)a * (int64_t)blw) >> 16);
+}
+
+fixed_t CONSTFUNC FixedApproxDiv(fixed_t a, fixed_t b)
+{
+    return FixedMul(a, FixedReciprocal(b));
+}

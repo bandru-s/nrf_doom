@@ -44,7 +44,9 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-
+#if defined(PLATFORM_NRF52840)
+  #define __far
+#endif
 #ifndef __BYTEBOOL__
 #define __BYTEBOOL__
 /* Fixed to use builtin bool type with C++. */

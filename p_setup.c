@@ -161,29 +161,7 @@ static void P_LoadSubsectors (int16_t lump)
 //
 
 // Sector definition, from editing.
-#if defined FLAT_SPAN
 #define R_FlatNumForFarName(p) (p)
-#else
-typedef struct {
-  int16_t floorheight;
-  int16_t ceilingheight;
-  char  floorpic[8];
-  char  ceilingpic[8];
-  uint8_t lightlevel;
-  int8_t special;
-  int16_t tag;
-} mapsector_t;
-
-typedef char assertMapsectorSize[sizeof(mapsector_t) == 24 ? 1 : -1];
-
-static int16_t R_FlatNumForFarName(const char __far* far_name)
-{
-	char near_name[8];
-	_fmemcpy(near_name, far_name, sizeof(near_name));
-	return R_FlatNumForName(near_name);
-}
-#endif
-
 
 static void P_LoadSectors (int16_t lump)
 {

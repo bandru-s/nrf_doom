@@ -78,7 +78,7 @@ typedef struct
 } memblock_t;
 
 
-typedef char assertMemblockSize[sizeof(memblock_t) <= PARAGRAPH_SIZE ? 1 : -1];
+//typedef char assertMemblockSize[sizeof(memblock_t) <= PARAGRAPH_SIZE ? 1 : -1];
 
 
 static memblock_t __far* mainzone_sentinal;

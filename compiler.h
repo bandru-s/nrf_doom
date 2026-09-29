@@ -65,7 +65,23 @@ typedef uint32_t segment_t;
 #if defined __WATCOMC__
 #include <endian.h>
 #else
-#include <machine/endian.h>
+//#include <machine/endian.h>
+#endif
+
+/* Cortex-M / ARM Little-Endian fallback */
+#ifndef __BYTE_ORDER
+  #define __LITTLE_ENDIAN 1234
+  #define __BIG_ENDIAN    4321
+  #define __BYTE_ORDER    __LITTLE_ENDIAN
+#endif
+
+/* POSIX string fallbacks for bare-metal compilers */
+#include <string.h>
+#ifndef strcasecmp
+  #define strcasecmp strcmp
+#endif
+#ifndef strncasecmp
+  #define strncasecmp strncmp
 #endif
 
 

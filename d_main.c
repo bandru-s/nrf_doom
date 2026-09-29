@@ -38,8 +38,9 @@
  */
 
 #include <stdint.h>
-#include <strings.h>
-
+#include <string.h>
+#include <ctype.h>
+#include "semihost.h"
 #include "doomdef.h"
 #include "doomtype.h"
 #include "d_player.h"
@@ -58,11 +59,11 @@
 #include "hu_stuff.h"
 #include "wi_stuff.h"
 #include "st_stuff.h"
-#include "am_map.h"
+//#include "am_map.h"
 #include "p_setup.h"
-#include "r_main.h"
+//#include "r_main.h"
 #include "d_main.h"
-#include "am_map.h"
+//#include "am_map.h"
 #include "m_cheat.h"
 #include "globdata.h"
 
@@ -78,7 +79,7 @@ static void D_UpdateFPS(void);
       boolean nosfxparm   = false;
 const boolean nomusicparm = true;
 
-const boolean nodrawers = false;
+//const boolean nodrawers = false;
 
 
 static int32_t maketic;
@@ -114,7 +115,7 @@ void D_PostEvent(event_t *ev)
         return;
 
     if (!M_Responder(ev))
-        if (!(_g_gamestate == GS_LEVEL && (C_Responder(ev) || AM_Responder(ev))))
+        if (!(_g_gamestate == GS_LEVEL && C_Responder(ev)))
             G_Responder(ev);
 }
 
@@ -144,71 +145,71 @@ static void D_BuildNewTiccmds(void)
 
 gamestate_t wipegamestate = GS_DEMOSCREEN; // wipegamestate can be set to -1 to force a wipe on the next draw
 
-static void D_Display (void)
-{
-    static gamestate_t oldgamestate = GS_LEVEL;
-
-    if (nodrawers)                    // for comparative timing / profiling
-        return;
+//static void D_Display (void)
+//{
+  //  static gamestate_t oldgamestate = GS_LEVEL;
+//
+  //  if (nodrawers)                    // for comparative timing / profiling
+    //    return;
 
     // save the current screen if about to wipe
-    boolean wipe = (_g_gamestate != wipegamestate);
-
-    if (wipe)
-        wipe_StartScreen();
-
-    if (_g_gamestate != GS_LEVEL) { // Not a level
-        if (oldgamestate == GS_LEVEL)
-            I_SetPalette(0); // cph - use default (basic) palette
-
-        switch (_g_gamestate)
-        {
-            case GS_INTERMISSION:
-                WI_Drawer();
-                break;
-            case GS_FINALE:
-                F_Drawer();
-                break;
-            case GS_DEMOSCREEN:
-                D_PageDrawer();
-                break;
-            default:
-                break;
-        }
-    }
-    else if (_g_gametic != _g_basetic)
-    { // In a level
+//    boolean wipe = (_g_gamestate != wipegamestate);
+//
+  //  if (wipe)
+    //    wipe_StartScreen();
+//
+  //  if (_g_gamestate != GS_LEVEL) { // Not a level
+    //    if (oldgamestate == GS_LEVEL)
+      //      I_SetPalette(0); // cph - use default (basic) palette
+//
+  //      switch (_g_gamestate)
+     //   {
+      //      case GS_INTERMISSION:
+       //         WI_Drawer();
+      //          break;
+    //        case GS_FINALE:
+    //            F_Drawer();
+    //            break;
+    //        case GS_DEMOSCREEN:
+   //             D_PageDrawer();
+   //             break;
+   //         default:
+    //            break;
+    //    }
+   // }
+   // else if (_g_gametic != _g_basetic)
+  //  { // In a level
 
         // Work out if the player view is visible, and if there is a border
-        boolean viewactive = (!(automapmode & am_active) || (automapmode & am_overlay));
+     //   boolean viewactive = true;
 
         // Now do the drawing
-        if (viewactive)
-            R_RenderPlayerView (&_g_player);
+     //   if (viewactive)
+     //       R_RenderPlayerView (&_g_player);
 
-        if (automapmode & am_active)
-            AM_Drawer();
+        //if (automapmode & am_active)
+            //AM_Drawer();
 
-        ST_doPaletteStuff();  // Do red-/gold-shifts from damage/items
-        ST_Drawer();
+   //     ST_doPaletteStuff();  // Do red-/gold-shifts from damage/items
+    //    ST_Drawer();
 
-        HU_Drawer();
-    }
+    //    HU_Drawer();
+ //   }
 
-    oldgamestate = wipegamestate = _g_gamestate;
+  //  oldgamestate = wipegamestate = _g_gamestate;
 
     // menus go directly to the screen
-    M_Drawer();          // menu is drawn even on top of everything
+  //  M_Drawer();          // menu is drawn even on top of everything
 
-    D_BuildNewTiccmds();
+  //  D_BuildNewTiccmds();
 
-    if (wipe)
+  //  if (wipe)
         // wipe update
-        D_Wipe();
-    else
+  //      D_Wipe();
+  //  else
         // normal update
-        I_FinishUpdate ();              // page flip or blit buffer
-}
+     //   I_FinishUpdate ();              // page flip or blit buffer
+//}
 
 
 //? how many ticks to run?
@@ -288,12 +289,12 @@ _Noreturn static void D_DoomLoop(void)
             S_UpdateSounds();// move positional sounds
 
         // Update display, next frame, with current state.
-        D_Display();
+        //D_Display();
 
 
         if(_g_fps_show)
         {
-            D_UpdateFPS();
+            //D_UpdateFPS();
         }
     }
 }
@@ -343,10 +344,10 @@ void D_PageTicker(void)
 // D_PageDrawer
 //
 
-static void D_PageDrawer(void)
-{
-	V_DrawRawFullScreen(titlepicnum);
-}
+//static void D_PageDrawer(void)
+//{
+	//V_DrawRawFullScreen(titlepicnum);
+//}
 
 //
 // D_AdvanceDemo
@@ -449,64 +450,75 @@ static void D_Init(void)
 // CPhipps - the old contents of D_DoomMain, but moved out of the main
 //  line of execution so its stack space can be freed
 
+
+
 static void D_DoomMainSetup(void)
 {
-    // init subsystems
+    semihost_write0("[1] I_InitKeyboard\n");
     I_InitKeyboard();
 
+    semihost_write0("[2] I_InitTimer\n");
     I_InitTimer();
 
+    semihost_write0("[3] I_InitSound\n");
     I_InitSound();
 
-    printf("Z_Init: Init zone memory allocation daemon.\n");
+    semihost_write0("[4] Z_Init\n");
     Z_Init();
 
-    G_ReloadDefaults();    // killough 3/4/98: set defaults just loaded.
+    semihost_write0("[5] G_ReloadDefaults\n");
+    G_ReloadDefaults();
 
-    printf("W_Init: Init WADfiles.\n");
-    W_Init(); // CPhipps - handling of wadfiles init changed
+    semihost_write0("[6] W_Init\n");
+    W_Init();
 
+    semihost_write0("[7] I_InitSound2\n");
     I_InitSound2();
 
+    semihost_write0("[8] D_Init\n");
     D_Init();
+
+    semihost_write0("[9] F_Init\n");
     F_Init();
+
+    semihost_write0("[10] WI_Init\n");
     WI_Init();
 
-    printf("M_Init: Init miscellaneous info.\n");
+    semihost_write0("[11] M_Init\n");
     M_Init();
 
-    printf("R_Init: DOOM refresh daemon - [...................]\n");
-    R_Init();
-
-    printf("P_Init: Init Playloop state.\n");
+    semihost_write0("[12] P_Init\n");
     P_Init();
 
-    S_Init(snd_SfxVolume /* *8 */, snd_MusicVolume /* *8*/ );
+    semihost_write0("[13] S_Init\n");
+    S_Init(snd_SfxVolume, snd_MusicVolume);
 
-    printf("HU_Init: Setting up heads up display.\n");
+    semihost_write0("[14] HU_Init\n");
     HU_Init();
 
-    printf("ST_Init: Init status bar.\n");
+    semihost_write0("[15] ST_Init\n");
     ST_Init();
 
+    semihost_write0("[16] G_LoadSettings\n");
     G_LoadSettings();
 
     _g_fps_show = false;
 
-    I_InitGraphics();
-
+    semihost_write0("[17] start title / demo\n");
     int16_t p = M_CheckParm("-timedemo");
     if (p && p < myargc - 1)
     {
         singletics = true;
-        _g_timingdemo = true;            // show stats after quit
+        _g_timingdemo = true;
         G_DeferedPlayDemo(myargv[p + 1]);
-        _g_singledemo = true;            // quit after one demo
+        _g_singledemo = true;
     }
     else
     {
-        D_StartTitle();                 // start up intro loop
+        D_StartTitle();
     }
+
+    semihost_write0("[18] D_DoomMainSetup returning\n");
 }
 
 //

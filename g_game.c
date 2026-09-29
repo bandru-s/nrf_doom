@@ -59,7 +59,7 @@
 #include "wi_stuff.h"
 #include "hu_stuff.h"
 #include "st_stuff.h"
-#include "am_map.h"
+//#include "am_map.h"
 #include "w_wad.h"
 #include "r_main.h"
 #include "p_map.h"
@@ -353,19 +353,16 @@ void G_Responder (event_t* ev)
         // Don't pop up menu, if paused in middle
         // of demo playback, or if automap active.
         // Don't suck up keys, which may be cheats
-        if(_g_gamestate == GS_DEMOSCREEN)
-        {
-            if(!(automapmode & am_active))
-            {
-                if(ev->type == ev_keydown)
-                {
-                    M_StartControlPanel();
-                    return;
-                }
-            }
-        }
+        //if(_g_gamestate == GS_DEMOSCREEN)
+        //{
+        //  if(ev->type == ev_keydown)
+        //  {
+         //   M_StartControlPanel();
+        //    return;
+        //  }
+        //}
 
-        return;
+        //return;
     }
 
     switch (ev->type)
@@ -472,7 +469,7 @@ void G_Ticker (void)
     case GS_LEVEL:
         P_Ticker ();
         ST_Ticker ();
-        AM_Ticker ();
+        //AM_Ticker ();
         HU_Ticker ();
         break;
 
@@ -594,8 +591,8 @@ static void G_DoCompleted (void)
 
     G_PlayerFinishLevel();        // take away cards and stuff
 
-    if (automapmode & am_active)
-        AM_Stop();
+    //if (automapmode & am_active)
+    //    AM_Stop();
 
     if (_g_gamemap == 9) // kilough 2/7/98
         _g_player.didsecret = true;
@@ -615,7 +612,7 @@ static void G_DoCompleted (void)
     _g_wminfo.maxitems = _g_totalitems;
     _g_wminfo.maxsecret = _g_totalsecret;
 
-    _g_wminfo.partime = TICRATE*pars[_g_gamemap];
+    _g_wminfo.partime = (int16_t)(TICRATE * pars[_g_gamemap]);
 
 
     _g_wminfo.plyr[0].skills = _g_player.killcount;
@@ -631,11 +628,11 @@ static void G_DoCompleted (void)
     _g_wminfo.totaltimes = (totalleveltimes += (_g_leveltime - (int16_t)_g_leveltime % TICRATE));
 
     _g_gamestate = GS_INTERMISSION;
-    automapmode &= ~am_active;
+    //automapmode &= ~am_active;
 
     // lmpwatch.pl engine-side demo testing support
     // print "FINISHED: <mapname>" when the player exits the current map
-    if (nodrawers && (_g_demoplayback || _g_timingdemo))
+    if (_g_demoplayback || _g_timingdemo)
     {
         printf("FINISHED: E1M%d\n", _g_gamemap);
     }
@@ -908,7 +905,7 @@ static void G_InitNew(skill_t skill, int16_t map)
     _g_player.playerstate = PST_REBORN;
 
     _g_usergame = true;                // will be set false if a demo
-    automapmode &= ~am_active;
+    //automapmode &= ~am_active;
     _g_gamemap = map;
     _g_gameskill = skill;
 

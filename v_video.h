@@ -47,7 +47,7 @@
 //
 // VIDEO
 //
-
+int16_t V_NumPatchWidth(int16_t num);
 void V_DrawBackground(int16_t backgroundnum);
 
 void V_DrawRaw(int16_t num, uint16_t offset);

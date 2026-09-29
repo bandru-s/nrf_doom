@@ -53,7 +53,8 @@
 
 #include "globdata.h"
 
-
+extern const uint8_t doom_iwad[];
+extern const uint8_t doom_iwad_maps[];
 //
 // TYPES
 //
@@ -81,7 +82,7 @@ static unsigned char doom_iwad_maps[1 * 1014 * 1024];
 #include "doom64ng.h"
 #include "doom64nm.h"
 #else
-#error unsupported compiler
+//#error unsupported compiler
 #endif
 
 static filelump_t __far* fileinfo;

@@ -24,7 +24,7 @@
  *-----------------------------------------------------------------------------*/
 
 #include "doomdef.h"
-#include "r_main.h"
+//#include "r_main.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "wi_lib.h"

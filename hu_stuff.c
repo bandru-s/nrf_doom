@@ -43,7 +43,7 @@
 #include "d_englsh.h"
 #include "sounds.h"
 #include "g_game.h"
-#include "r_main.h"
+//#include "r_main.h"
 
 #include "globdata.h"
 
