@@ -154,18 +154,18 @@ void F_Ticker(void)
 //
 void F_Drawer (void)
 {
-	if (!finalestage)
-	{
-		V_DrawBackground(backgroundnum);
-
-		int32_t count = (finalecount - 10) * 100 / Get_TextSpeed();
-		if (count < 0)
-			count = 0;
-
-		F_TextWrite(count);
-	}
-	else
-		V_DrawRawFullScreen(help2num);
+	//if (!finalestage)
+	//{
+	//	V_DrawBackground(backgroundnum);
+//
+	//	int32_t count = (finalecount - 10) * 100 / Get_TextSpeed();
+		//if (count < 0)
+	//		count = 0;
+//
+	//	F_TextWrite(count);
+	//}
+	//else
+	//	V_DrawRawFullScreen(help2num);
 }
 
 

@@ -40,33 +40,33 @@
 // erased dynamically.
 void F_TextWrite(int32_t count)
 {
-	int16_t font_lump_offset = W_GetNumForName(HU_FONTSTART_LUMP) - HU_FONTSTART;
+	//int16_t font_lump_offset = W_GetNumForName(HU_FONTSTART_LUMP) - HU_FONTSTART;
 
 	// draw some of the text onto the screen
-	int16_t         cx = 10;
-	int16_t         cy = 10;
-	const char* ch = E1TEXT;
+	//int16_t         cx = 10;
+	//int16_t         cy = 10;
+	//const char* ch = E1TEXT;
 
-	for ( ; count ; count-- )
-	{
-		char c = *ch++;
+	//for ( ; count ; count-- )
+	//{
+	//	char c = *ch++;
 
-		if (!c)
-			break;
-		if (c == '\n')
-		{
-			cx = 10;
-			cy += 11;
-			continue;
-		}
+	//	if (!c)
+		//	break;
+		//if (c == '\n')
+		//{
+		//	cx = 10;
+		//	cy += 11;
+		//	continue;
+		//}
 
-		c = toupper(c);
-		if (HU_FONTSTART <= c && c <= HU_FONTEND) {
-			const patch_t __far* patch = W_GetLumpByNum(c + font_lump_offset);
-			V_DrawPatchNotScaled(cx, cy, patch);
-			cx += patch->width;
-		} else {
-			cx += HU_FONT_SPACE_WIDTH;
-		}
-	}
+		//c = toupper(c);
+		//if (HU_FONTSTART <= c && c <= HU_FONTEND) {
+		//	const patch_t __far* patch = W_GetLumpByNum(c + font_lump_offset);
+		//	V_DrawPatchNotScaled(cx, cy, patch);
+		//	cx += patch->width;
+		//} else {
+		//	cx += HU_FONT_SPACE_WIDTH;
+	//	}
+	//}
 }

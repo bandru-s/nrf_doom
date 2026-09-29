@@ -55,7 +55,7 @@ void ST_initPalette(void);
 void ST_doPaletteStuff(void);
 
 // Called by main loop.
-void ST_Drawer(void);
+//void ST_Drawer(void);
 
 void ST_doRefresh(void);
 

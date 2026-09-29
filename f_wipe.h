@@ -36,7 +36,7 @@
 #ifndef __F_WIPE_H__
 #define __F_WIPE_H__
 
-void D_Wipe(void);
-void wipe_StartScreen(void);
+//void D_Wipe(void);
+//void wipe_StartScreen(void);
 
 #endif

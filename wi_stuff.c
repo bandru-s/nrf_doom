@@ -126,7 +126,7 @@ static int16_t wimap0num;
 //
 static void WI_slamBackground(void)
 {
-	V_DrawRawFullScreen(wimap0num);
+	//V_DrawRawFullScreen(wimap0num);
 }
 
 
@@ -164,11 +164,11 @@ static int16_t WI_calculateDigits(int16_t n)
 // CPhipps - static
 void WI_drawPercent(int16_t x, int16_t y, int16_t p)
 {
-  if (p < 0)
-    return;
+  //if (p < 0)
+    //return;
 
-  WI_drawPercentSign(x, y);
-  WI_drawNum(x, y, p, WI_calculateDigits(p));
+  //WI_drawPercentSign(x, y);
+  //WI_drawNum(x, y, p, WI_calculateDigits(p));
 }
 
 
@@ -192,15 +192,15 @@ void WI_drawTime(int16_t x, int16_t y, int32_t t)
     for(;;) {
       int16_t n = t % 60;
       t /= 60;
-      x = WI_drawNum(x, y, n, (t || n>9) ? 2 : 1) - WI_getColonWidth();
+      //x = WI_drawNum(x, y, n, (t || n>9) ? 2 : 1) - WI_getColonWidth();
 
       // draw
       if (t)
-        WI_drawColon(x, y);
+        //WI_drawColon(x, y);
       else break;
     }
   else // "sucks" (maybe should be "addicted", even I've never had a 24 hour game ;)
-    WI_drawSucks(x, y);
+    //WI_drawSucks(x, y);
 }
 
 
@@ -288,24 +288,24 @@ static void WI_updateShowNextLoc(void)
 //
 static void WI_drawShowNextLoc(void)
 {
-    WI_slamBackground();
+    //WI_slamBackground();
 
     int16_t last = (wbs->last == 8) ? wbs->next - 1 : wbs->last;
 
     // draw a splat on taken cities.
     for (int16_t i=0 ; i<=last ; i++)
-        WI_drawSplat(i);
+       // WI_drawSplat(i);
 
     // splat the secret level?
     if (wbs->didsecret)
-        WI_drawSplat(8);
+       // WI_drawSplat(8);
 
     // draw flashing ptr
     if (snl_pointeron)
-        WI_drawYouAreHere(wbs->next);
+      //  WI_drawYouAreHere(wbs->next);
 
     // draws which level you are entering..
-    WI_drawEL(wbs->next);
+    //WI_drawEL(wbs->next);
 }
 
 // ====================================================================
@@ -317,7 +317,7 @@ static void WI_drawShowNextLoc(void)
 static void WI_drawNoState(void)
 {
   snl_pointeron = true;
-  WI_drawShowNextLoc();
+  //WI_drawShowNextLoc();
 }
 
 // ====================================================================
@@ -539,22 +539,22 @@ void WI_Ticker(void)
 //
 void WI_Drawer (void)
 {
-  switch (state)
-  {
-    case StatCount:
-           WI_slamBackground();
-           WI_drawLF(wbs->last);
-           WI_drawStats(cnt_kills, cnt_items, cnt_secret, cnt_time, cnt_total_time, cnt_par);
-         break;
+  //switch (state)
+  //{
+  //  case StatCount:
+   //        WI_slamBackground();
+   //        WI_drawLF(wbs->last);
+   //        WI_drawStats(cnt_kills, cnt_items, cnt_secret, cnt_time, cnt_total_time, cnt_par);
+   //      break;
 
-    case ShowNextLoc:
-         WI_drawShowNextLoc();
-         break;
+  //  case ShowNextLoc:
+   //      WI_drawShowNextLoc();
+   //      break;
 
-    case NoState:
-         WI_drawNoState();
-         break;
-  }
+   // case NoState:
+   //      WI_drawNoState();
+    //     break;
+  //}
 }
 
 

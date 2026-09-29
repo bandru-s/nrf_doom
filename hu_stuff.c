@@ -194,16 +194,16 @@ static void HUlib_drawTextLine(hu_textline_t* textline)
 void HU_Drawer(void)
 {
     // draw the automap widgets if automap is displayed
-    if (automapmode & am_active)
-    {
+   // if (automapmode & am_active)
+   // {
         // map title
-        HUlib_drawTextLine(&w_title);
-    }
+      //  HUlib_drawTextLine(&w_title);
+   // }
 
-    if (message_on)
-    {
-        HUlib_drawTextLine(&w_message);
-    }
+    //if (message_on)
+    //{
+    //    HUlib_drawTextLine(&w_message);
+    //}
 }
 
 
