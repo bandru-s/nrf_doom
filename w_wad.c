@@ -48,25 +48,24 @@
 #include "d_player.h"
 #include "doomtype.h"
 #include "i_system.h"
-
+#include "semihost.h"
 #include "w_wad.h"
 
 #include "globdata.h"
 
 extern const uint8_t doom_iwad[];
-extern const uint8_t doom_iwad_maps[];
+#define doom_iwad_maps doom_iwad
 //
 // TYPES
 //
 
 typedef struct
 {
-  int32_t  filepos;
+  int32_t filepos;
   uint16_t size;
-  int16_t  filler;        // always zero
+  int16_t filler; // always zero
   char name[8];
 } filelump_t;
-
 
 //
 // GLOBALS
@@ -85,8 +84,7 @@ static unsigned char doom_iwad_maps[1 * 1014 * 1024];
 //#error unsupported compiler
 #endif
 
-static filelump_t __far* fileinfo;
-
+static filelump_t __far *fileinfo;
 
 //
 // LUMP BASED ROUTINES.
@@ -95,132 +93,117 @@ static filelump_t __far* fileinfo;
 typedef struct
 {
   char identification[4]; // Should be "IWAD" or "PWAD".
-  int16_t  numlumps;
-  int16_t  filler;        // always zero
-  int32_t  infotableofs;
+  int16_t numlumps;
+  int16_t filler; // always zero
+  int32_t infotableofs;
 } wadinfo_t;
-
 
 #if !defined WAD_FILE
 #define WAD_FILE "DOOM1.WAD"
 #endif
 
-
-void W_Init(void)
-{
-	printf("\tadding " WAD_FILE "\n");
-	printf("\tshareware version.\n");
+void W_Init(void) {
+  printf("\tadding " WAD_FILE "\n");
+  printf("\tshareware version.\n");
 
 #if defined __WATCOMC__
-	FILE *fileWAD;
+  FILE *fileWAD;
 
-	fileWAD = fopen(WAD_FILE, "rb");
-	if (fileWAD == NULL)
-		I_Error("Can't open " WAD_FILE ".");
+  fileWAD = fopen(WAD_FILE, "rb");
+  if (fileWAD == NULL)
+    I_Error("Can't open " WAD_FILE ".");
 
-	fread(doom_iwad, sizeof(doom_iwad), 1, fileWAD);
-	fclose(fileWAD);
+  fread(doom_iwad, sizeof(doom_iwad), 1, fileWAD);
+  fclose(fileWAD);
 
-	fileWAD = fopen(MAP_WAD_FILE, "rb");
-	if (fileWAD == NULL)
-		I_Error("Can't open " MAP_WAD_FILE ".");
+  fileWAD = fopen(MAP_WAD_FILE, "rb");
+  if (fileWAD == NULL)
+    I_Error("Can't open " MAP_WAD_FILE ".");
 
-	fread(doom_iwad_maps, sizeof(doom_iwad_maps), 1, fileWAD);
-	fclose(fileWAD);
+  fread(doom_iwad_maps, sizeof(doom_iwad_maps), 1, fileWAD);
+  fclose(fileWAD);
 #endif
 
-	wadinfo_t *header = (wadinfo_t*)&doom_iwad[0];
-	fileinfo = (filelump_t __far*)&doom_iwad[header->infotableofs];
+  wadinfo_t *header = (wadinfo_t *)&doom_iwad[0];
+  fileinfo = (filelump_t __far *)&doom_iwad[header->infotableofs];
 }
 
-
-const char __far* PUREFUNC W_GetNameForNum(int16_t num)
-{
-	return fileinfo[num].name;
+const char __far *PUREFUNC W_GetNameForNum(int16_t num) {
+  return fileinfo[num].name;
 }
-
 
 //
 // W_LumpLength
 // Returns the buffer size needed to load the given lump.
 //
 
-uint16_t PUREFUNC W_LumpLength(int16_t num)
-{
-	return fileinfo[num].size;
+uint16_t PUREFUNC W_LumpLength(int16_t num) {
+  return fileinfo[num].size;
 }
 
-
-uint16_t PUREFUNC W_MapLumpLength(int16_t num)
-{
-	wadinfo_t *mapheader = (wadinfo_t*)&doom_iwad_maps[0];
-	filelump_t *mapfileinfo = (filelump_t *)&doom_iwad_maps[mapheader->infotableofs];
-	return mapfileinfo[num].size;
+uint16_t PUREFUNC W_MapLumpLength(int16_t num) {
+  wadinfo_t *mapheader = (wadinfo_t *)&doom_iwad_maps[0];
+  filelump_t *mapfileinfo = (filelump_t *)&doom_iwad_maps[mapheader->infotableofs];
+  return mapfileinfo[num].size;
 }
-
 
 // W_GetNumForName
 // bombs out if not found.
 //
-int16_t PUREFUNC W_GetNumForName(const char *name)
-{
-	char name8[8];
-	strncpy(name8, name, sizeof(name8));
+int16_t PUREFUNC W_GetNumForName(const char *name) {
+  char name8[8];
+  strncpy(name8, name, sizeof(name8));
 
-	wadinfo_t *header = (wadinfo_t*)&doom_iwad[0];
+  wadinfo_t *header = (wadinfo_t *)&doom_iwad[0];
 
-	for (int16_t i = 0; i < header->numlumps; i++)
-	{
-		if (Z_EqualNames(fileinfo[i].name, name8))
-		{
-			return i;
-		}
-	}
-
-	I_Error("W_GetNumForName: %.8s not found", name);
-	return -1;
+  for (int16_t i = 0; i < header->numlumps; i++) {
+    if (Z_EqualNames(fileinfo[i].name, name8)) {
+      return i;
+    }
+  }
+  semihost_write0("MISSING LUMP: ");
+  semihost_write0(name);
+  semihost_write0("\n");
+  /* Headless: return 0 for missing lumps instead of dying.
+     * Only cosmetic lump lookups should fail here. */
+  semihost_write0("WARN missing lump: ");
+  semihost_write0(name);
+  semihost_write0("\n");
+  return 0;
 }
 
+int16_t PUREFUNC W_GetMapNumForName(const char *name) {
+  char name8[8];
+  strncpy(name8, name, sizeof(name8));
 
-int16_t PUREFUNC W_GetMapNumForName(const char *name)
-{
-	char name8[8];
-	strncpy(name8, name, sizeof(name8));
+  wadinfo_t *mapheader = (wadinfo_t *)&doom_iwad_maps[0];
+  filelump_t *mapfileinfo = (filelump_t *)&doom_iwad_maps[mapheader->infotableofs];
 
-	wadinfo_t *mapheader = (wadinfo_t*)&doom_iwad_maps[0];
-	filelump_t *mapfileinfo = (filelump_t *)&doom_iwad_maps[mapheader->infotableofs];
+  for (int16_t i = 0; i < mapheader->numlumps; i++) {
+    if (Z_EqualNames(mapfileinfo[i].name, name8)) {
+      return i;
+    }
+  }
 
-	for (int16_t i = 0; i < mapheader->numlumps; i++)
-	{
-		if (Z_EqualNames(mapfileinfo[i].name, name8))
-		{
-			return i;
-		}
-	}
-
-	I_Error("W_GetMapNumForName: %.8s not found", name);
-	return -1;
+  semihost_write0("WARN missing map lump: ");
+  semihost_write0(name);
+  semihost_write0("\n");
+  return 0;
 }
 
-
-void W_ReadLumpByNum(int16_t num, void __far* ptr)
-{
-	const filelump_t __far* lump = &fileinfo[num];
-	memcpy(ptr, &doom_iwad[lump->filepos], lump->size);
+void W_ReadLumpByNum(int16_t num, void __far *ptr) {
+  const filelump_t __far *lump = &fileinfo[num];
+  memcpy(ptr, &doom_iwad[lump->filepos], lump->size);
 }
 
-
-const void __far* PUREFUNC W_GetLumpByNum(int16_t num)
-{
-	const filelump_t __far* lump = &fileinfo[num];
-	return &doom_iwad[lump->filepos];
+const void __far *PUREFUNC W_GetLumpByNum(int16_t num) {
+  const filelump_t __far *lump = &fileinfo[num];
+  return &doom_iwad[lump->filepos];
 }
 
-
-const void __far* PUREFUNC W_GetMapLumpByNum(int16_t num)
-{
-	wadinfo_t *mapheader = (wadinfo_t*)&doom_iwad_maps[0];
-	filelump_t *mapfileinfo = (filelump_t *)&doom_iwad_maps[mapheader->infotableofs];
-	const filelump_t *lump = &mapfileinfo[num];
-	return &doom_iwad_maps[lump->filepos];
+const void __far *PUREFUNC W_GetMapLumpByNum(int16_t num) {
+  wadinfo_t *mapheader = (wadinfo_t *)&doom_iwad_maps[0];
+  filelump_t *mapfileinfo = (filelump_t *)&doom_iwad_maps[mapheader->infotableofs];
+  const filelump_t *lump = &mapfileinfo[num];
+  return &doom_iwad_maps[lump->filepos];
 }

@@ -45,7 +45,7 @@
 #include "r_things.h"
 #include "p_tick.h"
 #include "p_tick.h"
-
+#include "semihost.h"
 #include "globdata.h"
 
 
@@ -137,8 +137,10 @@ static int16_t R_GetTextureNumForName(const char* tex_name)
         }
     }
 
-    I_Error("R_GetTextureNumForName: texture name: %s not found.", tex_name);
-    return -1;
+        /* Headless build: missing textures are cosmetic (only used by stubbed
+     * rendering code). Return a dummy texture index instead of dying so
+     * the game can continue booting. */
+    return 0;
 }
 
 
