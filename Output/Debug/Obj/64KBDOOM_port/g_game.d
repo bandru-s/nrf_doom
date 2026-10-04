@@ -19,5 +19,5 @@ Output/Debug/Obj/64KBDOOM_port/g_game.o: \
   tables.h p_mobj.h doomdata.h d_ticcmd.h f_finale.h m_menu.h d_event.h \
   m_random.h p_setup.h p_tick.h p_map.h r_defs.h d_main.h w_wad.h \
   wi_stuff.h hu_stuff.h st_stuff.h r_main.h r_data.h s_sound.h \
-  d_englsh.h p_inter.h g_game.h i_system.h globdata.h i_sound.h p_spec.h \
-  p_enemy.h p_maputl.h r_things.h v_video.h
+  d_englsh.h p_inter.h g_game.h i_system.h semihost.h globdata.h \
+  i_sound.h p_spec.h p_enemy.h p_maputl.h r_things.h v_video.h

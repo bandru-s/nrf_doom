@@ -64,7 +64,7 @@ define block tdata                          { section .tdata,     section .tdata
 define block tls                            { block tbss, block tdata };
 define block tdata_load                     { copy of block tdata };
 define block heap  with size = __HEAPSIZE__,  alignment = 8, /* fill =0x00, */ readwrite access { };
-define block stack with size = __STACKSIZE__, alignment = 8, /* fill =0xCD, */ readwrite access { };
+define block stack with size = __STACKSIZE__, alignment = 16, /* fill =0xCD, */ readwrite access { };
 //
 // Explicit initialization settings for sections
 // Packing options for initialize by copy: packing=auto/lzss/zpak/packbits

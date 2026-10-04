@@ -139,11 +139,25 @@ _vectors:
         ISR_HANDLER SysTick_Handler
         //
         // Add external interrupt vectors here.
-        // Example:
-        //   ISR_HANDLER ExternalISR0
-        //   ISR_HANDLER ExternalISR1
-        //   ISR_HANDLER ExternalISR2
-        //   ISR_HANDLER ExternalISR3
+        // nRF52840 external interrupt vectors (IRQ 0..17 shown; higher unused)
+        //
+        ISR_HANDLER POWER_CLOCK_IRQHandler        // IRQ 0
+        ISR_HANDLER RADIO_IRQHandler              // IRQ 1
+        ISR_HANDLER UARTE0_UART0_IRQHandler       // IRQ 2
+        ISR_HANDLER SPIM0_SPIS0_TWIM0_TWIS0_SPI0_TWI0_IRQHandler  // IRQ 3
+        ISR_HANDLER SPIM1_SPIS1_TWIM1_TWIS1_SPI1_TWI1_IRQHandler  // IRQ 4
+        ISR_HANDLER NFCT_IRQHandler               // IRQ 5
+        ISR_HANDLER GPIOTE_IRQHandler             // IRQ 6
+        ISR_HANDLER SAADC_IRQHandler              // IRQ 7
+        ISR_HANDLER TIMER0_IRQHandler             // IRQ 8
+        ISR_HANDLER TIMER1_IRQHandler             // IRQ 9
+        ISR_HANDLER TIMER2_IRQHandler             // IRQ 10
+        ISR_HANDLER RTC0_IRQHandler               // IRQ 11
+        ISR_HANDLER TEMP_IRQHandler               // IRQ 12
+        ISR_HANDLER RNG_IRQHandler                // IRQ 13
+        ISR_HANDLER ECB_IRQHandler                // IRQ 14
+        ISR_HANDLER CCM_AAR_IRQHandler            // IRQ 15
+        ISR_HANDLER WDT_IRQHandler                // IRQ 16
         //
 
         .section .vectors, "a"

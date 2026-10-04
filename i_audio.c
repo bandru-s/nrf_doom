@@ -57,6 +57,7 @@
 #include "i_system.h"
 
 #include "globdata.h"
+#include "semihost.h"
 
 
 #define MAX_CHANNELS    1
@@ -87,16 +88,23 @@ int16_t I_StartSound(sfxenum_t id, int16_t channel, int16_t vol, int16_t sep)
 
 void I_InitSound(void)
 {
-	if (M_CheckParm("-nosound") || M_CheckParm("-nosfx"))
-		nosfxparm = true;
+    semihost_write0("  I_InitSound entry\n");
+    semihost_write0(nosfxparm ? "  nosfxparm=true before\n" : "  nosfxparm=false before\n");
+    semihost_write0(nomusicparm ? "  nomusicparm=true\n" : "  nomusicparm=false\n");
 
-	if (nomusicparm && nosfxparm)
-		return;
+    if (M_CheckParm("-nosound") || M_CheckParm("-nosfx"))
+        nosfxparm = true;
 
-	DMX_Init();
+    semihost_write0(nosfxparm ? "  nosfxparm=true after\n" : "  nosfxparm=false after\n");
 
-	// Finished initialization.
-	printf("I_InitSound: sound ready\n");
+    if (nomusicparm && nosfxparm) {
+        semihost_write0("  EARLY RETURN\n");
+        return;
+    }
+
+    semihost_write0("  calling DMX_Init\n");
+    DMX_Init();
+    semihost_write0("  DMX_Init returned\n");
 }
 
 

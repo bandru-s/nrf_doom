@@ -12,12 +12,7 @@
  * SYS_EXIT   = 0x18  — halt target with exit code in r1
  */
 
-static inline void semihost_write0(const char *s)
-{
-    register uint32_t r0 __asm__("r0") = 0x04;
-    register const char *r1 __asm__("r1") = s;
-    __asm__ volatile("bkpt 0xAB" : "+r"(r0) : "r"(r1) : "memory");
-}
+void semihost_write0(const char *s);
 
 static inline void semihost_writec(char c)
 {
@@ -44,5 +39,14 @@ static inline void semihost_hex32(uint32_t v)
     semihost_write0(buf);
     semihost_writec('\n');
 }
-
+static inline void semihost_write_hex(uint32_t v)
+{
+    char buf[11] = "0x00000000\n";
+    const char *h = "0123456789abcdef";
+    for (int i = 0; i < 8; i++) {
+        buf[2 + i] = h[(v >> (28 - i*4)) & 0xF];
+    }
+    semihost_write0(buf);
+}
 #endif
+

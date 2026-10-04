@@ -54,7 +54,7 @@
 #include "globdata.h"
 
 extern const uint8_t doom_iwad[];
-#define doom_iwad_maps doom_iwad
+extern const uint8_t doom_iwad_maps[];
 //
 // TYPES
 //
@@ -62,8 +62,7 @@ extern const uint8_t doom_iwad[];
 typedef struct
 {
   int32_t filepos;
-  uint16_t size;
-  int16_t filler; // always zero
+  int32_t size;
   char name[8];
 } filelump_t;
 
@@ -85,16 +84,15 @@ static unsigned char doom_iwad_maps[1 * 1014 * 1024];
 #endif
 
 static filelump_t __far *fileinfo;
-
+uint32_t missing_lump_count = 0;
 //
 // LUMP BASED ROUTINES.
 //
 
 typedef struct
 {
-  char identification[4]; // Should be "IWAD" or "PWAD".
-  int16_t numlumps;
-  int16_t filler; // always zero
+  char identification[4];    // "IWAD" or "PWAD"
+  int32_t numlumps;
   int32_t infotableofs;
 } wadinfo_t;
 
@@ -161,14 +159,14 @@ int16_t PUREFUNC W_GetNumForName(const char *name) {
       return i;
     }
   }
-  semihost_write0("MISSING LUMP: ");
-  semihost_write0(name);
-  semihost_write0("\n");
+//  semihost_write0("MISSING LUMP: ");
+//  semihost_write0(name);
+//  semihost_write0("\n");
   /* Headless: return 0 for missing lumps instead of dying.
      * Only cosmetic lump lookups should fail here. */
-  semihost_write0("WARN missing lump: ");
-  semihost_write0(name);
-  semihost_write0("\n");
+//  semihost_write0("WARN missing lump: ");
+//  semihost_write0(name);
+//  semihost_write0("\n");
   return 0;
 }
 
@@ -185,9 +183,7 @@ int16_t PUREFUNC W_GetMapNumForName(const char *name) {
     }
   }
 
-  semihost_write0("WARN missing map lump: ");
-  semihost_write0(name);
-  semihost_write0("\n");
+  missing_lump_count++;
   return 0;
 }
 

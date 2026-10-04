@@ -17,4 +17,5 @@ Output/Debug/Obj/64KBDOOM_port/i_audio.o: \
   m_fixed.h config.h d_think.h doomdata.h info.h r_defs.h d_player.h \
   d_items.h p_pspr.h d_ticcmd.h d_main.h d_event.h i_system.h globdata.h \
   g_game.h hu_stuff.h m_menu.h p_spec.h p_enemy.h p_map.h p_maputl.h \
-  p_tick.h r_main.h r_data.h r_things.h st_stuff.h v_video.h wi_stuff.h
+  p_tick.h r_main.h r_data.h r_things.h st_stuff.h v_video.h wi_stuff.h \
+  semihost.h

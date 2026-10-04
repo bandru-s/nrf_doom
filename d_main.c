@@ -37,55 +37,52 @@
  *-----------------------------------------------------------------------------
  */
 
-#include <stdint.h>
-#include <string.h>
-#include <ctype.h>
-#include "semihost.h"
+#include "d_englsh.h"
+#include "d_player.h"
 #include "doomdef.h"
 #include "doomtype.h"
-#include "d_player.h"
-#include "d_englsh.h"
-#include "sounds.h"
-#include "z_zone.h"
-#include "w_wad.h"
-#include "s_sound.h"
-#include "v_video.h"
 #include "f_finale.h"
 #include "f_wipe.h"
-#include "m_menu.h"
-#include "i_system.h"
-#include "i_sound.h"
 #include "g_game.h"
 #include "hu_stuff.h"
-#include "wi_stuff.h"
+#include "i_sound.h"
+#include "i_system.h"
+#include "m_menu.h"
+#include "s_sound.h"
+#include "semihost.h"
+#include "sounds.h"
 #include "st_stuff.h"
+#include "v_video.h"
+#include "w_wad.h"
+#include "wi_stuff.h"
+#include "z_zone.h"
+#include <ctype.h>
+#include <stdint.h>
+#include <string.h>
 //#include "am_map.h"
 #include "p_setup.h"
 //#include "r_main.h"
 #include "d_main.h"
 //#include "am_map.h"
-#include "m_cheat.h"
 #include "globdata.h"
+#include "m_cheat.h"
 
 static void D_DoAdvanceDemo(void);
 static void D_PageDrawer(void);
 static void D_UpdateFPS(void);
 
-
 // CPhipps - removed wadfiles[] stuff
 
-
 //jff 1/22/98 parms for disabling music and sound
-      boolean nosfxparm   = false;
+boolean nosfxparm = false;
 const boolean nomusicparm = true;
 
 //const boolean nodrawers = false;
-
+extern volatile uint32_t dbg_status[8];
 
 static int32_t maketic;
 
-
-static int16_t  pagetic;
+static int16_t pagetic;
 
 static boolean singletics; // debug flag to cancel adaptiveness
 static boolean advancedemo;
@@ -94,9 +91,7 @@ boolean _g_fps_show;
 //fps counter stuff
 int16_t _g_fps_framerate;
 
-
 static int16_t titlepicnum;
-
 
 /*
  * D_PostEvent - Event handling
@@ -107,36 +102,31 @@ static int16_t titlepicnum;
  *  short ciruit operator madness begin!
  */
 
-void D_PostEvent(event_t *ev)
-{
-    /* cph - suppress all input events at game start
+void D_PostEvent(event_t *ev) {
+  /* cph - suppress all input events at game start
    * FIXME: This is a lousy kludge */
-    if (_g_gametic < 3)
-        return;
+  if (_g_gametic < 3)
+    return;
 
-    if (!M_Responder(ev))
-        if (!(_g_gamestate == GS_LEVEL && C_Responder(ev)))
-            G_Responder(ev);
+  if (!M_Responder(ev))
+    if (!(_g_gamestate == GS_LEVEL && C_Responder(ev)))
+      G_Responder(ev);
 }
 
+static void D_BuildNewTiccmds(void) {
+  static int32_t lastmadetic = 0;
+  int16_t newtics = I_GetTime() - lastmadetic;
+  lastmadetic += newtics;
 
-static void D_BuildNewTiccmds(void)
-{
-    static int32_t lastmadetic = 0;
-    int16_t newtics = I_GetTime() - lastmadetic;
-    lastmadetic += newtics;
+  while (newtics--) {
+    I_StartTic();
+    if ((int16_t)(maketic - _g_gametic) > 3)
+      break;
 
-    while (newtics--)
-    {
-        I_StartTic();
-        if ((int16_t)(maketic - _g_gametic) > 3)
-            break;
-
-        G_BuildTiccmd();
-        maketic++;
-    }
+    G_BuildTiccmd();
+    maketic++;
+  }
 }
-
 
 //
 // D_Display
@@ -147,108 +137,100 @@ gamestate_t wipegamestate = GS_DEMOSCREEN; // wipegamestate can be set to -1 to 
 
 //static void D_Display (void)
 //{
-  //  static gamestate_t oldgamestate = GS_LEVEL;
+//  static gamestate_t oldgamestate = GS_LEVEL;
 //
-  //  if (nodrawers)                    // for comparative timing / profiling
-    //    return;
+//  if (nodrawers)                    // for comparative timing / profiling
+//    return;
 
-    // save the current screen if about to wipe
+// save the current screen if about to wipe
 //    boolean wipe = (_g_gamestate != wipegamestate);
 //
-  //  if (wipe)
-    //    wipe_StartScreen();
+//  if (wipe)
+//    wipe_StartScreen();
 //
-  //  if (_g_gamestate != GS_LEVEL) { // Not a level
-    //    if (oldgamestate == GS_LEVEL)
-      //      I_SetPalette(0); // cph - use default (basic) palette
+//  if (_g_gamestate != GS_LEVEL) { // Not a level
+//    if (oldgamestate == GS_LEVEL)
+//      I_SetPalette(0); // cph - use default (basic) palette
 //
-  //      switch (_g_gamestate)
-     //   {
-      //      case GS_INTERMISSION:
-       //         WI_Drawer();
-      //          break;
-    //        case GS_FINALE:
-    //            F_Drawer();
-    //            break;
-    //        case GS_DEMOSCREEN:
-   //             D_PageDrawer();
-   //             break;
-   //         default:
-    //            break;
-    //    }
-   // }
-   // else if (_g_gametic != _g_basetic)
-  //  { // In a level
+//      switch (_g_gamestate)
+//   {
+//      case GS_INTERMISSION:
+//         WI_Drawer();
+//          break;
+//        case GS_FINALE:
+//            F_Drawer();
+//            break;
+//        case GS_DEMOSCREEN:
+//             D_PageDrawer();
+//             break;
+//         default:
+//            break;
+//    }
+// }
+// else if (_g_gametic != _g_basetic)
+//  { // In a level
 
-        // Work out if the player view is visible, and if there is a border
-     //   boolean viewactive = true;
+// Work out if the player view is visible, and if there is a border
+//   boolean viewactive = true;
 
-        // Now do the drawing
-     //   if (viewactive)
-     //       R_RenderPlayerView (&_g_player);
+// Now do the drawing
+//   if (viewactive)
+//       R_RenderPlayerView (&_g_player);
 
-        //if (automapmode & am_active)
-            //AM_Drawer();
+//if (automapmode & am_active)
+//AM_Drawer();
 
-   //     ST_doPaletteStuff();  // Do red-/gold-shifts from damage/items
-    //    ST_Drawer();
+//     ST_doPaletteStuff();  // Do red-/gold-shifts from damage/items
+//    ST_Drawer();
 
-    //    HU_Drawer();
- //   }
+//    HU_Drawer();
+//   }
 
-  //  oldgamestate = wipegamestate = _g_gamestate;
+//  oldgamestate = wipegamestate = _g_gamestate;
 
-    // menus go directly to the screen
-  //  M_Drawer();          // menu is drawn even on top of everything
+// menus go directly to the screen
+//  M_Drawer();          // menu is drawn even on top of everything
 
-  //  D_BuildNewTiccmds();
+//  D_BuildNewTiccmds();
 
-  //  if (wipe)
-        // wipe update
-  //      D_Wipe();
-  //  else
-        // normal update
-     //   I_FinishUpdate ();              // page flip or blit buffer
+//  if (wipe)
+// wipe update
+//      D_Wipe();
+//  else
+// normal update
+//   I_FinishUpdate ();              // page flip or blit buffer
 //}
 
-
 //? how many ticks to run?
-static void TryRunTics (void)
-{
-    int16_t runtics;
-    int32_t entertime = I_GetTime();
+static void TryRunTics(void) {
+  int16_t runtics;
+  int32_t entertime = I_GetTime();
 
-    // Wait for tics to run
-    while (1)
-    {
+  // Wait for tics to run
+  while (1) {
 
-        D_BuildNewTiccmds();
+    D_BuildNewTiccmds();
 
-        runtics = maketic - _g_gametic;
-        if (runtics <= 0)
-        {
-            if ((int16_t)(I_GetTime() - entertime) > 10)
-            {
-                M_Ticker();
-                return;
-            }
-        }
-        else
-            break;
-    }
+    runtics = maketic - _g_gametic;
+    if (runtics <= 0) {
+      if ((int16_t)(I_GetTime() - entertime) > 10) {
+        M_Ticker();
+        return;
+      }
+    } else
+      break;
+  }
 
-    while (runtics-- > 0)
-    {
+  while (runtics-- > 0) {
 
-        if (advancedemo)
-            D_DoAdvanceDemo ();
+    if (advancedemo)
+      D_DoAdvanceDemo();
 
-        M_Ticker ();
-        G_Ticker ();
-        _g_gametic++;
-    }
+    M_Ticker();
+    G_Ticker();
+    _g_gametic++;
+  }
 }
-
 
 //
 //  D_DoomLoop()
@@ -260,84 +242,79 @@ static void TryRunTics (void)
 //  calls all ?_Responder, ?_Ticker, and ?_Drawer,
 //  calls I_GetTime and I_StartTic
 //
-_Noreturn static void D_DoomLoop(void)
-{
-    for (;;)
-    {
-        // frame syncronous IO operations
+_Noreturn static void D_DoomLoop(void) {
+  static int16_t heartbeat = 0;
+  for (;;) {
+    // frame syncronous IO operations
 
-        // process one or more tics
-        if (singletics)
-        {
-            I_StartTic ();
-            G_BuildTiccmd ();
+    // process one or more tics
+    if (singletics) {
+      I_StartTic();
+      G_BuildTiccmd();
 
-            if (advancedemo)
-                D_DoAdvanceDemo ();
+      if (advancedemo)
+        D_DoAdvanceDemo();
 
-            M_Ticker ();
-            G_Ticker ();
+      M_Ticker();
+      G_Ticker();
 
-            _g_gametic++;
-            maketic++;
-        }
-        else
-            TryRunTics (); // will run at least one tic
+      _g_gametic++;
+      maketic++;
+    } else
+      TryRunTics(); // will run at least one tic
 
-        // killough 3/16/98: change consoleplayer to displayplayer
-        if (_g_player.mo) // cph 2002/08/10
-            S_UpdateSounds();// move positional sounds
+    // killough 3/16/98: change consoleplayer to displayplayer
+    if (_g_player.mo)   // cph 2002/08/10
+      S_UpdateSounds(); // move positional sounds
 
-        // Update display, next frame, with current state.
-        //D_Display();
+    // Update display, next frame, with current state.
+    //D_Display();
 
-
-        if(_g_fps_show)
-        {
-            //D_UpdateFPS();
-        }
+    if (_g_fps_show) {
+      //D_UpdateFPS();
     }
+    if (++heartbeat >= 70) {
+      heartbeat = 0;
+      dbg_status[0]++;              /* tick count */
+      dbg_status[1] = _g_gamestate; /* game state */
+      dbg_status[2] = _g_gametic;   /* game tic counter */
+    }
+  }
 }
 
-static void D_UpdateFPS()
-{
-    static uint32_t fps_frames = 0;
-    static uint32_t fps_timebefore = 0;
+static void D_UpdateFPS() {
+  static uint32_t fps_frames = 0;
+  static uint32_t fps_timebefore = 0;
 
-    fps_frames++;
+  fps_frames++;
 
-    uint32_t timenow = I_GetTime();
-    if(timenow >= (fps_timebefore + TICRATE))
-    {
-        uint32_t tics_elapsed = timenow - fps_timebefore;
-        fixed_t f_realfps = FixedApproxDiv((fps_frames*(TICRATE*10)) << FRACBITS, tics_elapsed <<FRACBITS);
+  uint32_t timenow = I_GetTime();
+  if (timenow >= (fps_timebefore + TICRATE)) {
+    uint32_t tics_elapsed = timenow - fps_timebefore;
+    fixed_t f_realfps = FixedApproxDiv((fps_frames * (TICRATE * 10)) << FRACBITS, tics_elapsed << FRACBITS);
 
-        _g_fps_framerate = (f_realfps >> FRACBITS);
+    _g_fps_framerate = (f_realfps >> FRACBITS);
 
-        fps_frames = 0;
-        fps_timebefore = timenow;
-    }
-    else if(timenow < fps_timebefore)
-    {
-        //timer overflow.
-        fps_timebefore = timenow;
-        fps_frames = 0;
-    }
+    fps_frames = 0;
+    fps_timebefore = timenow;
+  } else if (timenow < fps_timebefore) {
+    //timer overflow.
+    fps_timebefore = timenow;
+    fps_frames = 0;
+  }
 }
 
 //
 //  DEMO LOOP
 //
 
-
 //
 // D_PageTicker
 // Handles timing for warped projection
 //
-void D_PageTicker(void)
-{
-    if (--pagetic < 0)
-        D_AdvanceDemo();
+void D_PageTicker(void) {
+  if (--pagetic < 0)
+    D_AdvanceDemo();
 }
 
 //
@@ -346,72 +323,74 @@ void D_PageTicker(void)
 
 //static void D_PageDrawer(void)
 //{
-	//V_DrawRawFullScreen(titlepicnum);
+//V_DrawRawFullScreen(titlepicnum);
 //}
 
 //
 // D_AdvanceDemo
 // Called after each demo or intro demosequence finishes
 //
-void D_AdvanceDemo (void)
-{
-    advancedemo = true;
+void D_AdvanceDemo(void) {
+  ////    //semihost_write0("  D_AdvanceDemo called\n");
+  advancedemo = true;
 }
 
+static void D_DrawTitle1(const char *name) {
+  UNUSED(name);
 
-static void D_DrawTitle1(const char *name)
-{
-	UNUSED(name);
-
-	S_StartMusic(mus_intro);
-	pagetic = (TICRATE*30);
+  S_StartMusic(mus_intro);
+  pagetic = (TICRATE * 30);
 }
-
 
 static struct
 {
-    void (*func)(const char *);
-    const char *name;
-}
-const demostates[] =
-{
-    {D_DrawTitle1, NULL},
-    {G_DeferedPlayDemo, "demo3"},
-    {NULL, NULL},
+  void (*func)(const char *);
+  const char *name;
+} const demostates[] =
+    {
+        {D_DrawTitle1, NULL},
+        {G_DeferedPlayDemo, "DEMO3"},
+        {NULL, NULL},
 };
 
-static int16_t  demosequence;
+static int16_t demosequence;
 
 /*
  * This cycles through the demo sequences.
  */
 
-static void D_DoAdvanceDemo(void)
-{
-    _g_player.playerstate = PST_LIVE;  /* not reborn */
-    advancedemo = _g_usergame = false;
-    _g_gameaction = ga_nothing;
+static void D_DoAdvanceDemo(void) {
+  _g_player.playerstate = PST_LIVE;
+  advancedemo = _g_usergame = false;
+  _g_gameaction = ga_nothing;
 
-    pagetic = TICRATE * 11;
-    _g_gamestate = GS_DEMOSCREEN;
+  pagetic = TICRATE * 11;
+  _g_gamestate = GS_DEMOSCREEN;
 
+  if (!demostates[++demosequence].func)
+    demosequence = 0;
 
-    if (!demostates[++demosequence].func)
-        demosequence = 0;
+  ////    //semihost_write0("D_DoAdvanceDemo: state=");
+  {
+    char buf[4];
+    buf[0] = '0' + demosequence;
+    buf[1] = '\n';
+    buf[2] = 0;
+    ////        semihost_write0(buf);
+  }
 
-    demostates[demosequence].func(demostates[demosequence].name);
+  demostates[demosequence].func(demostates[demosequence].name);
+  ////    //semihost_write0("D_DoAdvanceDemo: returned\n");
 }
 
 //
 // D_StartTitle
 //
-void D_StartTitle (void)
-{
-    _g_gameaction = ga_nothing;
-    demosequence = -1;
-    D_AdvanceDemo();
+void D_StartTitle(void) {
+  _g_gameaction = ga_nothing;
+  demosequence = -1;
+  D_AdvanceDemo();
 }
-
 
 /*
 =================
@@ -426,23 +405,19 @@ void D_StartTitle (void)
 */
 
 static int myargc;
-static const char * const * myargv;
+static const char *const *myargv;
 
-int16_t M_CheckParm(char *check)
-{
-	for (int16_t i = 1; i < myargc; i++)
-		if (!strcasecmp(check, myargv[i]))
-			return i;
+int16_t M_CheckParm(char *check) {
+  for (int16_t i = 1; i < myargc; i++)
+    if (!strcasecmp(check, myargv[i]))
+      return i;
 
-	return 0;
+  return 0;
 }
 
-
-static void D_Init(void)
-{
-	titlepicnum = W_GetNumForName("TITLEPIC");
+static void D_Init(void) {
+  titlepicnum = W_GetNumForName("TITLEPIC");
 }
-
 
 //
 // D_DoomMainSetup
@@ -450,87 +425,80 @@ static void D_Init(void)
 // CPhipps - the old contents of D_DoomMain, but moved out of the main
 //  line of execution so its stack space can be freed
 
+static void D_DoomMainSetup(void) {
+  ////    semihost_write0("[1] I_InitKeyboard\n");
+  I_InitKeyboard();
 
+  ////    semihost_write0("[2] I_InitTimer\n");
+  I_InitTimer();
 
-static void D_DoomMainSetup(void)
-{
-    semihost_write0("[1] I_InitKeyboard\n");
-    I_InitKeyboard();
+  ////    semihost_write0("[3] I_InitSound\n");
+  I_InitSound();
 
-    semihost_write0("[2] I_InitTimer\n");
-    I_InitTimer();
+  ////    semihost_write0("[4] Z_Init\n");
+  Z_Init();
 
-    semihost_write0("[3] I_InitSound\n");
-    I_InitSound();
+  ////    semihost_write0("[5] G_ReloadDefaults\n");
+  G_ReloadDefaults();
 
-    semihost_write0("[4] Z_Init\n");
-    Z_Init();
+  ////    semihost_write0("[6] W_Init\n");
+  W_Init();
 
-    semihost_write0("[5] G_ReloadDefaults\n");
-    G_ReloadDefaults();
+  ////    semihost_write0("[7] I_InitSound2\n");
+  I_InitSound2();
 
-    semihost_write0("[6] W_Init\n");
-    W_Init();
+  ////    semihost_write0("[8] D_Init\n");
+  D_Init();
 
-    semihost_write0("[7] I_InitSound2\n");
-    I_InitSound2();
+  ////    semihost_write0("[9] F_Init\n");
+  F_Init();
 
-    semihost_write0("[8] D_Init\n");
-    D_Init();
+  ////    semihost_write0("[10] WI_Init\n");
+  WI_Init();
 
-    semihost_write0("[9] F_Init\n");
-    F_Init();
+  ////    semihost_write0("[11] M_Init\n");
+  M_Init();
 
-    semihost_write0("[10] WI_Init\n");
-    WI_Init();
+  ////    semihost_write0("[12] P_Init\n");
+  P_Init();
 
-    semihost_write0("[11] M_Init\n");
-    M_Init();
+  ////    semihost_write0("[13] S_Init\n");
+  S_Init(snd_SfxVolume, snd_MusicVolume);
 
-    semihost_write0("[12] P_Init\n");
-    P_Init();
+  ////    semihost_write0("[14] HU_Init\n");
+  HU_Init();
 
-    semihost_write0("[13] S_Init\n");
-    S_Init(snd_SfxVolume, snd_MusicVolume);
+  ////    semihost_write0("[15] ST_Init\n");
+  ST_Init();
 
-    semihost_write0("[14] HU_Init\n");
-    HU_Init();
+  ////    semihost_write0("[16] G_LoadSettings\n");
+  G_LoadSettings();
 
-    semihost_write0("[15] ST_Init\n");
-    ST_Init();
+  _g_fps_show = false;
 
-    semihost_write0("[16] G_LoadSettings\n");
-    G_LoadSettings();
+  ////    semihost_write0("[17] start title / demo\n");
+  int16_t p = M_CheckParm("-timedemo");
+  if (p && p < myargc - 1) {
+    singletics = true;
+    _g_timingdemo = true;
+    G_DeferedPlayDemo(myargv[p + 1]);
+    _g_singledemo = true;
+  } else {
+    D_StartTitle();
+  }
 
-    _g_fps_show = false;
-
-    semihost_write0("[17] start title / demo\n");
-    int16_t p = M_CheckParm("-timedemo");
-    if (p && p < myargc - 1)
-    {
-        singletics = true;
-        _g_timingdemo = true;
-        G_DeferedPlayDemo(myargv[p + 1]);
-        _g_singledemo = true;
-    }
-    else
-    {
-        D_StartTitle();
-    }
-
-    semihost_write0("[18] D_DoomMainSetup returning\n");
+  ////    semihost_write0("[18] D_DoomMainSetup returning\n");
 }
 
 //
 // D_DoomMain
 //
 
-void D_DoomMain(int argc, const char * const * argv)
-{
-    myargc = argc;
-    myargv = argv;
+void D_DoomMain(int argc, const char *const *argv) {
+  myargc = argc;
+  myargv = argv;
 
-    D_DoomMainSetup();
+  D_DoomMainSetup();
 
-    D_DoomLoop ();  // never returns
+  D_DoomLoop(); // never returns
 }

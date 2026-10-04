@@ -45,7 +45,7 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="12" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Source/main.c" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="21" y="11" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Source/main.c" selected="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="5" y="84" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="f_finale.c" selected="0" top="64" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="2" y="60" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="f_lib.c" selected="0" top="33" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="42" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="f_wipe.h" selected="0" top="0" codecName="Default"/>
@@ -55,16 +55,16 @@
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="m_menu.h" selected="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="29" y="64" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="m_menu.c" selected="0" top="37" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="43" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="v_video.c" selected="0" top="20" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="2" y="32" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="i_audio.c" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="145" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="i_audio.c" selected="0" top="119" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="11" y="48" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="i_sound.h" selected="0" top="18" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="69" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="compiler.h" selected="0" top="41" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="47" y="39" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="compiler.h" selected="0" top="24" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="6" y="48" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="doomtype.h" selected="0" top="25" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="11" y="125" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="config.h" selected="0" top="111" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="18" y="135" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="d_main.c" selected="0" top="111" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="26" y="301" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="d_main.c" selected="0" top="286" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="38" y="52" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="v_video.h" selected="0" top="35" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="13" y="361" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="g_game.c" selected="0" top="337" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="49" y="335" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="g_game.c" selected="0" top="310" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="36" y="18" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="p_doors.c" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="29" y="173" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="p_setup.c" selected="0" top="150" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="42" y="360" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="p_setup.c" selected="0" top="340" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="2" y="54" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="st_stuff.c" selected="0" top="33" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="18" y="28" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="wi_lib.c" selected="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="40" y="223" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="globdata.h" selected="0" top="204" codecName="Default"/>
@@ -72,16 +72,24 @@
   <SessionOpenFile windowGroup="DockEditLeft" x="19" y="42" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="p_inter.c" selected="0" top="31" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="d_main.h" selected="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="15" y="94" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="stubs.c" selected="0" top="64" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="31" y="116" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="w_wad.c" selected="1" top="90" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="71" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="w_wad.c" selected="0" top="54" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="6" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="wad_data.c" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="34" y="83" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="z_zone.c" selected="0" top="59" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="14" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="semihost.h" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="35" y="33" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="platform.c" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="24" y="156" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="z_zone.c" selected="0" top="138" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="26" y="11" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="semihost.h" selected="0" top="3" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="26" y="21" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="platform.c" selected="0" top="2" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="33" y="14" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="globals.c" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="m_fixed.h" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="41" y="65625" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="m_fixed.c" selected="0" top="65602" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="2" y="74" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="m_fixed.h" selected="0" top="59" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="68" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="m_fixed.c" selected="0" top="56" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="21" y="13" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="r_stubs.c" selected="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="209" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="System/Cortex_M_Startup.s" selected="0" top="203" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="40" y="156" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="System/Cortex_M_Startup.s" selected="0" top="142" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="18" y="40" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="r_data.c" selected="0" top="34" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="9" y="190" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="p_sight.c" selected="0" top="171" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="33" y="5" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="doom_sfx.c" selected="0" top="16219" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="9" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="semihost.c" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="35" y="53" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="w_wad.h" selected="0" top="36" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="2" y="14" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="p_map.h" selected="0" top="18" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="41" y="60" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="Setup/SEGGER_Flash.icf" selected="1" top="53" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="46" y="15" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="System/SEGGER_THUMB_Startup.s" selected="0" top="2" codecName="Default"/>
  </Files>
  <ARMCrossStudioWindow activeProject="64KBDOOM_port" fileDialogDefaultFilter="*" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="C:/Users/Bandrus Gammer/Desktop/GondosoraDOOM/nRF52840Doom/64KBDOOM/Doom64KB" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>

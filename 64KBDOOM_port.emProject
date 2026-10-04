@@ -11,7 +11,7 @@
       arm_fpu_type="FPv4-SP-D16"
       arm_linker_heap_size="0"
       arm_linker_process_stack_size="0"
-      arm_linker_stack_size="2048"
+      arm_linker_stack_size="16384"
       arm_linker_variant="SEGGER"
       arm_rtl_variant="SEGGER"
       arm_simulator_memory_simulation_parameter="RWX 00000000,00100000,FFFFFFFF;RWX 20000000,00040000,CDCDCDCD"
@@ -31,6 +31,7 @@
       <file file_name="platform.c" />
       <file file_name="globals.c" />
       <file file_name="r_stubs.c" />
+      <file file_name="semihost.c" />
     </folder>
     <folder Name="Setup">
       <file file_name="Setup/SEGGER_Flash.icf" />
@@ -143,6 +144,8 @@
     <file file_name="r_things.c" />
     <file file_name="r_things.h" />
     <file file_name="wad_data.c" />
+    <file file_name="doom_sfx.c" />
+    <file file_name="doom_maps.c" />
   </project>
   <configuration
     Name="Debug"

@@ -70,8 +70,6 @@ fixed_t CONSTFUNC FixedMul3216(fixed_t a, uint16_t blw);
 //Approx Reciprocal of v
 // Divide FFFFFFFFh by a number.
 fixed_t  CONSTFUNC FixedReciprocal(fixed_t v);
-uint16_t CONSTFUNC FixedReciprocalBig(fixed_t v);
-fixed_t  CONSTFUNC FixedReciprocalSmall(uint16_t v);
 
 
 /*

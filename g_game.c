@@ -71,7 +71,7 @@
 #include "p_inter.h"
 #include "g_game.h"
 #include "i_system.h"
-
+#include "semihost.h"
 #include "globdata.h"
 
 
@@ -302,6 +302,7 @@ void G_BuildTiccmd(void)
 
 static void G_DoLoadLevel (void)
 {
+////    //semihost_write0("G_DoLoadLevel: enter\n");
     if (wipegamestate == GS_LEVEL)
         wipegamestate = -1;             // force a wipe
 
@@ -320,7 +321,9 @@ static void G_DoLoadLevel (void)
     P_SetSecnodeFirstpoolToNull();
 
 
-    P_SetupLevel (_g_gamemap);
+////        //semihost_write0("G_DoLoadLevel: calling P_SetupLevel\n");
+    P_SetupLevel(_g_gamemap);
+////    //semihost_write0("G_DoLoadLevel: P_SetupLevel returned\n");;
 
     _g_gameaction = ga_nothing;
     Z_CheckHeap ();
@@ -330,6 +333,7 @@ static void G_DoLoadLevel (void)
 
     ST_Start(); // wake up the status bar
     HU_Start(); // wake up the heads up text
+////        //semihost_write0("G_DoLoadLevel: done\n");
 }
 
 
@@ -890,6 +894,7 @@ static void G_DoNewGame (void)
 
 static void G_InitNew(skill_t skill, int16_t map)
 {
+////    //semihost_write0("G_InitNew: enter\n");
     if (skill > sk_nightmare)
         skill = sk_nightmare;
 
@@ -910,8 +915,11 @@ static void G_InitNew(skill_t skill, int16_t map)
     _g_gameskill = skill;
 
     totalleveltimes = 0;
+    
+////        //semihost_write0("G_InitNew: calling G_DoLoadLevel\n");
+    G_DoLoadLevel();
+////    //semihost_write0("G_InitNew: done\n");
 
-    G_DoLoadLevel ();
 }
 
 //
@@ -967,61 +975,49 @@ static void CheckForOverrun(const byte __far* start_p, const byte __far* current
 
 static const byte __far* G_ReadDemoHeader(const byte __far* demo_p)
 {
+////    //semihost_write0("H enter\n");
+
     skill_t skill;
     int16_t map;
-
-    // e6y
-    // The local variable should be used instead of demobuffer,
-    // because demobuffer can be uninitialized
     const byte __far* header_p = demo_p;
 
-    _g_basetic = _g_gametic;  // killough 9/29/98
+    _g_basetic = _g_gametic;
 
-    // killough 2/22/98, 2/28/98: autodetect old demos and act accordingly.
-    // Old demos turn on demo_compatibility => compatibility; new demos load
-    // compatibility flag, and other flags as well, as a part of the demo.
-
-    //e6y: check for overrun
     CheckForOverrun(header_p, demo_p, 1);
-
+////    //semihost_write0("H chk1\n");
     demo_p++;
 
-    // killough 3/2/98: force these variables to be 0 in demo_compatibility
-
-    // killough 3/6/98: rearrange to fix savegame bugs (moved fastparm,
-    // respawnparm, nomonsters flags to G_LoadOptions()/G_SaveOptions())
-
-    //e6y: check for overrun
     CheckForOverrun(header_p, demo_p, 8);
+////    //semihost_write0("H chk8\n");
 
     skill = *demo_p++;
+////    //semihost_write0("H skill read\n");
     demo_p++;
     map = *demo_p++;
-#if defined LOW_MEMORY
-    map = 1;
-#endif
+////    //semihost_write0("H map read\n");
     demo_p++;
     demo_p++;
     demo_p++;
     demo_p++;
     demo_p++;
+////    //semihost_write0("H skipped\n");
 
-    //e6y: check for overrun
     CheckForOverrun(header_p, demo_p, MAXPLAYERS);
+////    //semihost_write0("H chkMAX\n");
 
     demo_p++;
     demo_p += MIN_MAXPLAYERS - MAXPLAYERS;
+////    //semihost_write0("H about to call G_InitNew\n");
 
-
-    if (_g_gameaction != ga_loadgame) { /* killough 12/98: support -loadgame */
+    if (_g_gameaction != ga_loadgame) {
         G_InitNew(skill, map);
     }
+////    //semihost_write0("H G_InitNew returned\n");
 
     _g_player.cheats = 0;
-
+////    //semihost_write0("H0 done\n");
     return demo_p;
 }
-
 
 static void ExtractFileBase (const char *path, char *dest)
 {
@@ -1053,24 +1049,32 @@ static void ExtractFileBase (const char *path, char *dest)
 
 static void G_DoPlayDemo(void)
 {
-    char basename[9];
+////    //semihost_write0("G_DoPlayDemo: enter\n");
 
-    ExtractFileBase(defdemoname,basename);           // killough
+    char basename[9];
+    ExtractFileBase(defdemoname, basename);
     basename[8] = 0;
 
-    /* cph - store lump number for unlocking later */
+////    //semihost_write0("G_DoPlayDemo: looking for ");
+////    semihost_write0(basename);
+////    semihost_write0("\n");
+
     int16_t demolumpnum = W_GetNumForName(basename);
+////    //semihost_write0("G_DoPlayDemo: got lump\n");
+
     demobuffer = W_GetLumpByNum(demolumpnum);
     demolength = W_LumpLength(demolumpnum);
 
+////    //semihost_write0("G_DoPlayDemo: reading header\n");
     demo_p = G_ReadDemoHeader(demobuffer);
+////    //semihost_write0("G_DoPlayDemo: header done\n");
 
     _g_gameaction = ga_nothing;
     _g_usergame = false;
-
     _g_demoplayback = true;
 
     starttime = I_GetTime();
+////    //semihost_write0("G_DoPlayDemo: done\n");
 }
 
 /* G_CheckDemoStatus
@@ -1079,6 +1083,7 @@ static void G_DoPlayDemo(void)
  */
 void G_CheckDemoStatus (void)
 {
+////    semihost_write0("  G_CheckDemoStatus\n");
     if (_g_timingdemo)
     {
         int32_t endtime = I_GetTime();

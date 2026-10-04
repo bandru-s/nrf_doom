@@ -36,8 +36,8 @@ typedef uint16_t segment_t;
 
 #else
 //32-bit
-#define D_MK_FP(s,o) (void*)((s<<4)+o)
-#define D_FP_SEG(p)  (((uint32_t)p)>>4)
+#define D_MK_FP(s,o) ((void*)(uintptr_t)(s))
+#define D_FP_SEG(p)  ((uint32_t)(uintptr_t)(p))
 #define D_FP_OFF(p)  (((uint32_t)p)&15)
 
 typedef uint32_t segment_t;
