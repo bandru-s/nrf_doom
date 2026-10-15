@@ -112,7 +112,16 @@ telnet localhost 4444
 
 `nrf52_recover` erases the whole chip, including the original firmware, and clears the read protection. A first connection attempt that says `AP lock engaged` is what confirms the lock was on. After a successful recover, check that you can still connect and read `0x10000100` (the part number, `0x00052840`).
 
-### 5. Build (optional) & Flash
+### 5. Wire the speaker
+ 
+The original speaker hangs on the modem's audio output, which the nRF cannot reach. The workaround reuses the vibration motor's driver, which the nRF can switch from P0.19:
+ 
+1. Unsolder the vibration motor from the `-VIB+` pads.
+2. Cut the flex connecting the speaker to the modem board (it sits in a flex with a two-pad end). Solder thin wires to the speaker's own contacts, which should read around 7 Ω.
+3. Connect one speaker wire to the `+VIB` pad. Connect the other to the `-VIB` pad **through a series resistor of at least 33 Ω**.
+Without the resistor, the speaker can draw far more current than it or the driver should handle. Keep it connected through the first tests.
+
+### 6. Build (optional) & Flash
 
 You can build your own .hex file in Segger Embedded Studio if you'd like.
 
@@ -131,16 +140,6 @@ sudo openocd -f rpi-swd.cfg -f target/nordic/nrf52.cfg \
 ```
  
 You should see `** Programming Finished **` and `** Verified OK **`, and the program starts at once.
-
-### 8. Wire the speaker
- 
-The original speaker hangs on the modem's audio output, which the nRF cannot reach. The workaround reuses the vibration motor's driver, which the nRF can switch from P0.19:
- 
-1. Unsolder the vibration motor from the `-VIB+` pads.
-2. Cut the flex connecting the speaker to the modem board (it sits in a flex with a two-pad end). Solder thin wires to the speaker's own contacts, which should read around 7 Ω.
-3. Connect one speaker wire to the `+VIB` pad. Connect the other to the `-VIB` pad **through a series resistor of at least 33 Ω**.
-Without the resistor, the speaker can draw far more current than it or the driver should handle. Keep it connected through the first tests.
-
 
 License
 
