@@ -12,7 +12,11 @@ Part of an artwork by Bódai András (2026), shown in the group exhibition *MODD
  
 Ez a projekt a DOOM 1993-as shareware változatát futtatja egy Gondosórán (Nordic nRF52840 MCU). Az eszköznek nincs kijelzője, ezért a játék képernyő nélkül fut: a demó magától pörög, a hang pedig PWM-kimeneten át jut a hangszóróhoz. A kód a FrenkelS Doom64KB projektjén alapul. Lent megtalálod a teljes leírást angolul: a bekötést és a feltöltést.
  
-> **Figyelem:** ez a folyamat visszafordíthatatlanul törli az eszköz eredeti szoftverét. Az átalakított óra **nem képes vészjelzést leadni**.
+**Figyelem:** ez a folyamat visszafordíthatatlanul törli az eszköz eredeti szoftverét. Az átalakított óra **nem képes vészjelzést leadni**.  
+
+[Magyar nyelvű beszámoló a projektről](https://andrsbdai.substack.com/p/igy-raktam-fel-a-doom-ot-egy-gondosorara)
+
+[Doppler Ádám cikke a projektről](https://qubit.hu/2026/11/03/ilyen-meg-nem-volt-egy-magyar-muvesz-gondosoran-futtatja-a-doomot)
 
 ---
 
